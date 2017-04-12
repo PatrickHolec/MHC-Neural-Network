@@ -248,13 +248,14 @@ class BuildCustomNetwork:
 
         print 'Finished formatting!'
 
-    def filter_initialization(self,form='variable'):
+    def filter_initialization(self,form='variable','sw_depth'=1,'pw_depth'=1):
+        # still working on sw/pw depth for filters
         print 'Initializing filters...'
         data = pickle.load(open('test_map.p'))
         sw_landscape = data['sw_landscape']
         if self.params['fc_layers'] == 1:
             if form == 'variable':
-                self.W_sw = weight_variable((self.aa_count,self.length,1,1))
+                self.W_sw = weight_variable((self.aa_count,self.length,1,sw_depth))
                 self.W_pw = weight_variable((self.aa_count,self.aa_count,1,self.pairs))
                 self.W_fc = weight_variable((self.length + self.pairs,1))        
                 self.b_fc = bias_variable((1,1))
@@ -264,7 +265,7 @@ class BuildCustomNetwork:
                 self.W_fc = constant_tensor(1,(self.length + self.pairs,1))        
                 self.b_fc = constant_tensor(0,(1,1))
             elif form == 'split':
-                self.W_sw = weight_variable((self.aa_count,self.length,1,1))
+                self.W_sw = weight_variable((self.aa_count,self.length,1,sw_depth))
                 self.W_pw = weight_variable((self.aa_count,self.aa_count,1,self.pairs))
                 #self.W_pw = constant_tensor(0,(self.aa_count,self.aa_count,1,self.pairs))
                 self.W_fc = constant_tensor(1,(self.length + self.pairs,1))        
@@ -279,7 +280,7 @@ class BuildCustomNetwork:
         elif self.params['fc_layers'] == 2:
             hidden_units = self.params['hidden_units']
             if True:
-                self.W_sw = weight_variable((self.aa_count,self.length,1,1))
+                self.W_sw = weight_variable((self.aa_count,self.length,1,sw_depth))
                 self.W_pw = weight_variable((self.aa_count,self.aa_count,1,self.pairs))
                 self.W_fc = weight_variable([self.length + self.pairs,hidden_units])        
                 self.b_fc = bias_variable([hidden_units])

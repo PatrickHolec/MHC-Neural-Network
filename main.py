@@ -84,7 +84,7 @@ def main():
     network.num_epochs = 50 
     network.params['fc_layers'] = 1
     network.data_format(augment=False,normalization=True)
-    network.filter_initialization(form='split')
+    network.filter_initialization(form='variable')
     network.network_initialization(learning_rate=0.001,fn='sigmoid',beta=0.01)
     sess = network.train()
     network.visualization(['test_accuracy']) # additional options: filters
